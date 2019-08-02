@@ -51,7 +51,7 @@ function Login(props) {
       <Grid item xs={12}>
         <TextField
           id="login-field"
-          label="Usuário"
+          label="E-mail"
           className={classes.textField}
           margin="normal"
         />
@@ -66,7 +66,7 @@ function Login(props) {
         />
       </Grid>
       <Grid item xs={12} style={{ textAlign: 'center' }}>
-        <Button variant="contained" size="large" className={classes.button} color="primary">Entrar</Button>
+        <Button variant="contained" size="large" className={classes.button} color="primary" onClick={logar}>Entrar</Button>
       </Grid>
       <Grid item xs={12} className={classes.footer}>
         <Typography>
@@ -81,3 +81,38 @@ function Login(props) {
 }
 
 export default Login;
+
+
+
+
+function logar(){
+  let ok = false
+  let URL = "https://hidden-atoll-76455.herokuapp.com/login/"
+  let user = document.getElementById("login-field").value
+  localStorage.setItem("userID", user)
+  let pass = document.getElementById("password-field").value
+  URL = URL + user +'/'+ pass
+  console.log(URL)
+  var client = new HttpClient();
+  client.get(URL, function(response) {
+    if(response == "ok"){
+      document.location = '/feed'
+      
+    }else if(response == "fail to login"){
+      alert("Senha Incorreta")
+    }
+  });
+}
+
+var HttpClient = function() {
+  this.get = function(aUrl, aCallback) {
+      var anHttpRequest = new XMLHttpRequest();
+      anHttpRequest.onreadystatechange = function() { 
+          if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+              aCallback(anHttpRequest.responseText);
+      }
+
+      anHttpRequest.open( "GET", aUrl, true );            
+      anHttpRequest.send( null );
+  }
+}

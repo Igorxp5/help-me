@@ -87,8 +87,45 @@ export default function Signup() {
                 <Link to="/">
                     <Button variant="contained" size="large" className={classes.button} color="primary">Voltar</Button>
                 </Link>
-                <Button variant="contained" size="large" className={classes.button} color="primary">Cadastrar</Button>
+                <Button variant="contained" size="large" className={classes.button} color="primary" onClick={logar}>Cadastrar</Button>
             </Grid>
         </Grid>
     );
 }
+
+
+
+function logar(){
+    let URL = "https://hidden-atoll-76455.herokuapp.com/new-profile/"
+    console.log(localStorage.getItem("userID"))
+    let user = document.getElementById("login-field").value
+    let pass = document.getElementById("password-field").value
+    let birth = document.getElementById("birthday-field").value
+    let email = document.getElementById("email").value
+
+    //ocalhost:3000/new-profile/:name/:bitrhday/:email/:pass
+    URL = URL + user +'/'+ birth+'/'+email+'/'+pass
+    console.log(URL)
+    var client = new HttpClient();
+    client.get(URL, function(response) {
+        console.log(response)
+      if(response.includes("Thank you")){
+        //adicionar home do app
+        console.log(response)
+        document.location = '/'
+      }
+    });
+  }
+  
+  var HttpClient = function() {
+    this.get = function(aUrl, aCallback) {
+        var anHttpRequest = new XMLHttpRequest();
+        anHttpRequest.onreadystatechange = function() { 
+            if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+                aCallback(anHttpRequest.responseText);
+        }
+  
+        anHttpRequest.open( "GET", aUrl, true );            
+        anHttpRequest.send( null );
+    }
+  }
