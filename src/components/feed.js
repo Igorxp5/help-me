@@ -15,58 +15,37 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
-class Feed extends React.Component {
-    constructor(props) {
-        super(props);
-        this.name = props.name;
-        this.date = props.date;
-        this.description = props.description;
-        this.profile = props.profile;
-        this.classes = makeStyles(theme => ({
-            card: {
-                maxWidth: 345,
-            },
-            media: {
-                height: 0,
-                paddingTop: '56.25%', // 16:9
-            },
-            expand: {
-                transform: 'rotate(0deg)',
-                marginLeft: 'auto',
-                transition: theme.transitions.create('transform', {
-                    duration: theme.transitions.duration.shortest,
-                }),
-            },
-            expandOpen: {
-                transform: 'rotate(180deg)',
-            },
-            avatar: {
-                backgroundColor: red[500],
-            },
-        }));
-    }
+const useStyles = makeStyles(theme => ({
+    card: {
+        maxWidth: 345,
+        marginBottom: 20
+    },
+    avatar: {
+        backgroundColor: red[500],
+    },
+}));
 
-    render() {
-        return (
-            <Card className={this.classes.card}>
-                <CardHeader
-                    avatar={
-                        <Avatar aria-label="recipe" className={this.classes.avatar}>
-                            R
-                        </Avatar>
-                    }
-                    title={this.name}
-                    subheader={this.date}
-                />
-                <CardContent>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        {this.description}
-                    </Typography>
-                </CardContent>
-            </Card>
-        )
-    }
+export default function Feed(props) {
+
+    const classes = useStyles();
+
+    return (
+        <Card className={classes.card}>
+            <CardHeader
+                avatar={
+                    <Avatar aria-label="recipe" className={classes.avatar} src={props.avatar}>
+                        {props.name.toUpperCase()[0]}
+                    </Avatar>
+                }
+                title={props.name}
+                subheader={props.date + ' em ' + props.location}
+            />
+            <CardContent>
+                <Typography variant="body2" color="textSecondary" component="p">
+                    {props.description}
+                </Typography>
+            </CardContent>
+        </Card>
+    );
 
 }
-
-export default Feed;
