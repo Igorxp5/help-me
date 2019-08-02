@@ -95,7 +95,7 @@ function logar(){
   var client = new HttpClient();
   client.get(URL, function(response) {
     if(response == "ok"){
-      //adicionar home do app
+      document.location = '/main'
       
     }else if(response == "fail to login"){
       alert("Senha Incorreta")

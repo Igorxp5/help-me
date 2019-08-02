@@ -113,7 +113,7 @@ export default function Main() {
         />
       </Grid>
       <Grid item xs={12} className={classes.gridItem} style={{ textAlign: 'center' }}>
-        <Button variant="contained" size="large" className={classes.publishButton} color="primary">Publicar</Button>
+        <Button variant="contained" size="large" className={classes.publishButton} color="primary" >Publicar</Button>
       </Grid>
       <Grid item xs={12} className={classes.gridItem}>
         <Typography variant="h6" color="inherit" className={classes.sectionTitle}>Feed de Ajudas</Typography>
@@ -127,4 +127,38 @@ export default function Main() {
       </Grid>
     </Grid>
   );
+}
+
+
+
+
+function logar(){
+  let ok = false
+  let URL = "https://hidden-atoll-76455.herokuapp.com//"
+  let user = document.getElementById("login-field").value
+  let pass = document.getElementById("password-field").value
+  URL = URL + user +'/'+ pass
+  console.log(URL)
+  var client = new HttpClient();
+  client.get(URL, function(response) {
+    if(response == "ok"){
+      //adicionar home do app
+      
+    }else if(response == "fail to login"){
+      alert("Senha Incorreta")
+    }
+  });
+}
+
+var HttpClient = function() {
+  this.get = function(aUrl, aCallback) {
+      var anHttpRequest = new XMLHttpRequest();
+      anHttpRequest.onreadystatechange = function() { 
+          if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+              aCallback(anHttpRequest.responseText);
+      }
+
+      anHttpRequest.open( "GET", aUrl, true );            
+      anHttpRequest.send( null );
+  }
 }
