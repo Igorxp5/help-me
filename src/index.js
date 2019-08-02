@@ -32,10 +32,10 @@ class App extends React.Component {
   render() {
     return (
       <Router>
-        <ThemeContext.Provider value={theme}>
-          <Route exact path="/" component={Login} />
+        <ThemeProvider theme={theme}>
+          <Route exact path="/" component={Main} />
           <Route path="/signup" component={Signup} />
-        </ThemeContext.Provider>
+        </ThemeProvider>
       </Router>
     );
   }

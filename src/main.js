@@ -15,35 +15,23 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
   },
+  appBar: {
+    marginBottom: 20
+  },
   menuButton: {
     marginRight: theme.spacing(2),
   },
   gridItem: {
-    padding: '20px 30px'
+    padding: '0 30px'
   },
   textField: {
     width: '100%'
+  },
+  publishButton: {
+    marginTop: 10,
+    width: 100
   }
 }));
-
-const currencies = [
-  {
-    value: 'USD',
-    label: '$',
-  },
-  {
-    value: 'EUR',
-    label: '€',
-  },
-  {
-    value: 'BTC',
-    label: '฿',
-  },
-  {
-    value: 'JPY',
-    label: '¥',
-  },
-];
 
 export default function Main() {
   const classes = useStyles();
@@ -62,7 +50,7 @@ export default function Main() {
   return (
     <Grid container className={classes.root} alignContent="center">
       <Grid item xs={12}>
-        <AppBar position="static">
+        <AppBar position="static" className={classes.appBar}>
           <Toolbar variant="dense">
             <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
               <MenuIcon />
@@ -87,7 +75,7 @@ export default function Main() {
         />
       </Grid>
       <Grid item xs={12} className={classes.gridItem}>
-        <Button variant="contained" size="large" className={classes.button} color="primary">Publicar</Button>
+        <Button variant="contained" size="large" className={classes.publishButton} color="primary">Publicar</Button>
       </Grid>
     </Grid>
   );

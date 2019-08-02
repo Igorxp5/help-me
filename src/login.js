@@ -13,8 +13,6 @@ import Button from '@material-ui/core/Button';
 
 import { Link } from 'react-router-dom'
 
-import { withTheme } from 'styled-components'
-
 const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
@@ -82,4 +80,4 @@ function Login(props) {
   );
 }
 
-export default withTheme(Login);
+export default Login;
