@@ -89,13 +89,14 @@ function logar(){
   let ok = false
   let URL = "https://hidden-atoll-76455.herokuapp.com/login/"
   let user = document.getElementById("login-field").value
+  localStorage.setItem("userID", user)
   let pass = document.getElementById("password-field").value
   URL = URL + user +'/'+ pass
   console.log(URL)
   var client = new HttpClient();
   client.get(URL, function(response) {
     if(response == "ok"){
-      document.location = '/main'
+      document.location = '/feed'
       
     }else if(response == "fail to login"){
       alert("Senha Incorreta")

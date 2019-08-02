@@ -97,6 +97,7 @@ export default function Signup() {
 
 function logar(){
     let URL = "https://hidden-atoll-76455.herokuapp.com/new-profile/"
+    console.log(localStorage.getItem("userID"))
     let user = document.getElementById("login-field").value
     let pass = document.getElementById("password-field").value
     let birth = document.getElementById("birthday-field").value

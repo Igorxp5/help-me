@@ -52,10 +52,12 @@ export default function Main() {
     currency: 'EUR',
   });
 
-  let feeds = [
-    { avatar: 'https://avatars2.githubusercontent.com/u/8163093?s=460&v=4', name: 'Igor Fernandes', date: '02/08/2019', description: 'Bla bla bla.', location:'CIn UFPE'},
-    {avatar: null, name: 'Luana Mayara', date: '02/04/2019', description: 'Hahahahah.', location: 'CIn UFPE'}
-  ];
+  // let feeds = [
+  //   { avatar: 'https://avatars2.githubusercontent.com/u/8163093?s=460&v=4', name: 'Igor Fernandes', date: '02/08/2019', description: 'Bla bla bla.', location:'CIn UFPE'},
+  //   {avatar: null, name: 'Luana Mayara', date: '02/04/2019', description: 'Hahahahah.', location: 'CIn UFPE'}
+  // ];
+  let feeds = []
+
 
   const handleChange = name => event => {
     setValues({ ...values, [name]: event.target.value });
@@ -113,7 +115,7 @@ export default function Main() {
         />
       </Grid>
       <Grid item xs={12} className={classes.gridItem} style={{ textAlign: 'center' }}>
-        <Button variant="contained" size="large" className={classes.publishButton} color="primary" >Publicar</Button>
+        <Button variant="contained" size="large" className={classes.publishButton} color="primary" onClick={logar}>Publicar</Button>
       </Grid>
       <Grid item xs={12} className={classes.gridItem}>
         <Typography variant="h6" color="inherit" className={classes.sectionTitle}>Feed de Ajudas</Typography>
@@ -134,19 +136,26 @@ export default function Main() {
 
 function logar(){
   let ok = false
-  let URL = "https://hidden-atoll-76455.herokuapp.com//"
-  let user = document.getElementById("login-field").value
-  let pass = document.getElementById("password-field").value
-  URL = URL + user +'/'+ pass
+  let URL = "https://hidden-atoll-76455.herokuapp.com/new-request/"
+  let loca = document.getElementById("location-field").value.replace(/\s+/g,"_")
+  let order = document.getElementById("order-field").value.replace(/\s+/g,"_")
+  let id = localStorage.getItem("userID")
+  let secondURL = "https://hidden-atoll-76455.herokuapp.com/get-profile/" + id
+  var client0 = new HttpClient();
+  
+  client0.get(secondURL, function(response) {
+    console.log(response)
+    response = JSON.parse(response)
+    console.log(response)
+    localStorage.setItem("newId", response.id)
+  })
+  id = localStorage.getItem("newId")
+  URL = URL + id+'/' +loca +'/'+ order
+  //new-request/:id/:place/:request
   console.log(URL)
   var client = new HttpClient();
   client.get(URL, function(response) {
-    if(response == "ok"){
-      //adicionar home do app
-      
-    }else if(response == "fail to login"){
-      alert("Senha Incorreta")
-    }
+    console.log(response)
   });
 }
 
@@ -161,4 +170,26 @@ var HttpClient = function() {
       anHttpRequest.open( "GET", aUrl, true );            
       anHttpRequest.send( null );
   }
+}
+
+//
+function array(){
+  var URL = "https://hidden-atoll-76455.herokuapp.com/get-requests/"
+  var client = new HttpClient();
+  client.get(URL, function(response) {
+    localStorage.setItem("Array",response)
+  })
+  let js = JSON.parse(localStorage.getItem("Array"))
+  console.log(js)
+  var resposta = []
+  for(let i = 0; i < js.length; i++ ){
+    resposta.push({
+      avatar: null, 
+      name: js[i].userName, 
+      date: '02/04/2019', 
+      description: js[i].request.replace("_",/\s+/g), 
+      location: js[i].place.replace("_",/\s+/g)
+    })
+  }
+  console.log(resposta)
 }
