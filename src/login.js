@@ -51,7 +51,7 @@ function Login(props) {
       <Grid item xs={12}>
         <TextField
           id="login-field"
-          label="Usuário"
+          label="E-mail"
           className={classes.textField}
           margin="normal"
         />
