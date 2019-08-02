@@ -15,37 +15,41 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = {
     card: {
-        maxWidth: 345,
         marginBottom: 20
     },
     avatar: {
         backgroundColor: red[500],
-    },
-}));
+    }
+};
 
-export default function Feed(props) {
+class Feed extends React.Component {
+    construct(props) {
+        this.props = props;
+    }
 
-    const classes = useStyles();
-
-    return (
-        <Card className={classes.card}>
-            <CardHeader
-                avatar={
-                    <Avatar aria-label="recipe" className={classes.avatar} src={props.avatar}>
-                        {props.name.toUpperCase()[0]}
-                    </Avatar>
-                }
-                title={props.name}
-                subheader={props.date + ' em ' + props.location}
-            />
-            <CardContent>
-                <Typography variant="body2" color="textSecondary" component="p">
-                    {props.description}
-                </Typography>
-            </CardContent>
-        </Card>
-    );
-
+    render() {
+        return (
+            <Card style={useStyles.card}>
+                <CardHeader
+                    avatar={
+                        <Avatar aria-label="recipe" style={useStyles.avatar} src={this.props.avatar}>
+                            {this.props.name.toUpperCase()[0]}
+                        </Avatar>
+                    }
+                    title={this.props.name}
+                    subheader={this.props.date}
+                />
+                <CardContent>
+                    <Typography variant="body2" color="textSecondary" component="p">
+                        {this.props.description}<br />
+                        <i style={useStyles.contentLocation}>em {this.props.location}</i>
+                    </Typography>
+                </CardContent>
+            </Card>
+        );
+    }
 }
+
+export default Feed;
