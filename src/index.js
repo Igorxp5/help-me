@@ -20,6 +20,7 @@ import './common.css';
 import Login from './login.js'
 import Signup from './signup.js'
 import Main from './main.js'
+import Perfil from './Perfil.js'
 
 class App extends React.Component {
   constructor(props) {
@@ -33,7 +34,7 @@ class App extends React.Component {
     return (
       <Router>
         <ThemeProvider theme={theme}>
-          <Route exact path="/" component={Main} />
+          <Route exact path="/" component={Perfil} />
           <Route path="/signup" component={Signup} />
         </ThemeProvider>
       </Router>
