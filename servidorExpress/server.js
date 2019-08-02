@@ -25,7 +25,7 @@ app.get('/get-profile/:name', function(req, res){
     let data = profiles.profiles
 
     let foundProf = data.find(function (prof){
-        return prof.name == name
+        return prof.email == name
     })
 
     if(foundProf){
