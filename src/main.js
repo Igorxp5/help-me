@@ -10,6 +10,8 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
+import { Link } from 'react-router-dom'
+
 import './common.css';
 
 import Feed from './components/feed'
@@ -84,7 +86,8 @@ class Main extends React.Component {
     let URL = "https://hidden-atoll-76455.herokuapp.com/new-request/"
     let loca = document.getElementById("location-field").value.replace(/\s+/g, "_")
     let order = document.getElementById("order-field").value.replace(/\s+/g, "_")
-    let id = localStorage.getItem("userID")
+    let id = localStorage.getItem("userID");
+
     let secondURL = "https://hidden-atoll-76455.herokuapp.com/get-profile/" + id
     var client0 = new HttpClient();
 
@@ -105,25 +108,28 @@ class Main extends React.Component {
   }
 
   render() {
+    //style={{ justifyContent: 'space-between'}}
     return (
       <Grid container style={useStyles.root} alignContent="center">
         <Grid item xs={12}>
           <AppBar position="static" style={useStyles.appBar}>
-            <Toolbar variant="dense" style={{ justifyContent: 'space-between'}}>
+            <Toolbar variant="dense"                                 >
               <IconButton edge="start" style={useStyles.menuButton} color="inherit" aria-label="menu">
                 <MenuIcon />
               </IconButton>
               <Typography variant="h6" color="inherit">Início</Typography>
-              <IconButton
-                edge="start"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                color="inherit"
-                style={{alignSelf: 'fkex-end'}}
-              >
-                <AccountCircle />
-              </IconButton>
+              {/* <Link to="/perfil">
+                <IconButton
+                  edge="start"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  color="inherit"
+                  style={{alignSelf: 'fkex-end'}}
+                >
+                  <AccountCircle />
+                </IconButton>
+              </Link> */}
             </Toolbar>
           </AppBar>
         </Grid>

@@ -78,7 +78,7 @@ export default function Signup() {
             <Grid item xs={12}>
                 <TextField
                     id="birthday-field"
-                    label="Data de Nascimento"
+                    label="Idade"
                     className={classes.textField}
                     margin="normal"
                 />
@@ -110,22 +110,23 @@ function logar(){
     client.get(URL, function(response) {
         console.log(response)
       if(response.includes("Thank you")){
-        //adicionar home do app
-        console.log(response)
-        document.location = '/'
+        alert("Usuário criado com sucesso!");
+        document.location = '/';
+      } else {
+          alert("Não possível criar o usuário");
       }
     });
   }
-  
+
   var HttpClient = function() {
     this.get = function(aUrl, aCallback) {
         var anHttpRequest = new XMLHttpRequest();
-        anHttpRequest.onreadystatechange = function() { 
+        anHttpRequest.onreadystatechange = function() {
             if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
                 aCallback(anHttpRequest.responseText);
         }
-  
-        anHttpRequest.open( "GET", aUrl, true );            
+
+        anHttpRequest.open( "GET", aUrl, true );
         anHttpRequest.send( null );
     }
   }

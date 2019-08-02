@@ -17,10 +17,10 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import {ThemeContext, theme} from './theme.js';
 import './common.css';
 
-import Login from './login.js'
-import Signup from './signup.js'
-import Main from './main.js'
-import Perfil from './Perfil.js'
+import Login from './login'
+import Signup from './signup'
+import Main from './main'
+import Perfil from './Perfil'
 
 class App extends React.Component {
   constructor(props) {
@@ -34,8 +34,10 @@ class App extends React.Component {
     return (
       <Router>
         <ThemeProvider theme={theme}>
-          <Route exact path="/" component={Main} />
+          <Route exact path="/" component={Login} />
+          <Route path="/main" component={Main} />
           <Route path="/signup" component={Signup} />
+          <Route path="/perfil" component={Perfil} />
         </ThemeProvider>
       </Router>
     );
