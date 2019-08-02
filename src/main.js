@@ -73,8 +73,8 @@ class Main extends React.Component {
           avatar: null,
           name: data[i].userName,
           date: '02/04/2019',
-          description: data[i].request.replace("_", ' '),
-          location: data[i].place.replace("_", ' ')
+          description: data[i].request.replace(/_/g, ' '),
+          location: data[i].place.replace(/_/g, ' ')
         });
       }
       this.setState({ feeds: resposta });
