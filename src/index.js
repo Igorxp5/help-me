@@ -34,7 +34,7 @@ class App extends React.Component {
     return (
       <Router>
         <ThemeProvider theme={theme}>
-          <Route exact path="/" component={Perfil} />
+          <Route exact path="/" component={Main} />
           <Route path="/signup" component={Signup} />
         </ThemeProvider>
       </Router>

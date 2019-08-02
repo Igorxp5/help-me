@@ -13,16 +13,14 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import './common.css';
 
 import Feed from './components/feed'
+import { createVerify } from 'crypto';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = {
   root: {
     flexGrow: 1,
   },
   appBar: {
-    marginBottom: 20
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
+    marginBottom: 20,
   },
   gridItem: {
     padding: '0 30px',
@@ -40,101 +38,143 @@ const useStyles = makeStyles(theme => ({
     borderBottom: '1px solid #ccc',
     marginBottom: 20
   }
-}));
+};
 
-export default function Main() {
-  const classes = useStyles();
+var HttpClient = function () {
+  this.get = function (aUrl, aCallback) {
+    var anHttpRequest = new XMLHttpRequest();
+    anHttpRequest.onreadystatechange = function () {
+      if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+        aCallback(anHttpRequest.responseText);
+    }
 
-  const [values, setValues] = React.useState({
-    name: 'Cat in the Hat',
-    age: '',
-    multiline: 'Controlled',
-    currency: 'EUR',
-  });
-
-  // let feeds = [
-  //   { avatar: 'https://avatars2.githubusercontent.com/u/8163093?s=460&v=4', name: 'Igor Fernandes', date: '02/08/2019', description: 'Bla bla bla.', location:'CIn UFPE'},
-  //   {avatar: null, name: 'Luana Mayara', date: '02/04/2019', description: 'Hahahahah.', location: 'CIn UFPE'}
-  // ];
-  let feeds = []
-
-
-  const handleChange = name => event => {
-    setValues({ ...values, [name]: event.target.value });
-  };
-
-  return (
-    <Grid container className={classes.root} alignContent="center">
-      <Grid item xs={12}>
-        <AppBar position="static" className={classes.appBar}>
-          <Toolbar variant="dense">
-            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" color="inherit">Início</Typography>
-            <IconButton
-              edge="start"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              color="inherit"
-              style={{alignSelf: 'fkex-end'}}
-            >
-              <AccountCircle />
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-      </Grid>
-      <Grid item xs={12} className={classes.gridItem}>
-        <Typography variant="h6" color="inherit" className={classes.sectionTitle}>Pedir ajuda</Typography>
-      </Grid>
-      <Grid item xs={12} className={classes.gridItem}>
-        <TextField
-          id="location-field"
-          multiline
-          rows="1"
-          rowsMax="4"
-          placeholder="Onde você está?"
-          onChange={handleChange('multiline')}
-          className={classes.textField}
-          variant="outlined"
-          width="100%"
-        />
-      </Grid>
-      <Grid item xs={12} className={classes.gridItem}>
-        <TextField
-          id="order-field"
-          multiline
-          rows="1"
-          rowsMax="4"
-          placeholder="Digite um pedido aqui :D"
-          onChange={handleChange('multiline')}
-          className={classes.textField}
-          variant="outlined"
-          width="100%"
-        />
-      </Grid>
-      <Grid item xs={12} className={classes.gridItem} style={{ textAlign: 'center' }}>
-        <Button variant="contained" size="large" className={classes.publishButton} color="primary" onClick={logar}>Publicar</Button>
-      </Grid>
-      <Grid item xs={12} className={classes.gridItem}>
-        <Typography variant="h6" color="inherit" className={classes.sectionTitle}>Feed de Ajudas</Typography>
-      </Grid>
-      <Grid item xs={12} className={classes.gridItem}>
-        {
-          feeds.map((item) => {
-            return <Feed avatar={item.avatar} name={item.name} date={item.date} description={item.description} location={item.location}/>
-          })
-        }
-      </Grid>
-    </Grid>
-  );
+    anHttpRequest.open("GET", aUrl, true);
+    anHttpRequest.send(null);
+  }
 }
 
+class Main extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      feeds: []
+    }
+    setInterval(this.updateFeed.bind(this), 2000);
+  }
 
+  updateFeed() {
+    var URL = "https://hidden-atoll-76455.herokuapp.com/get-requests/"
+    fetch(URL).then((responseText) => responseText.json()).then(function(data) {
+      var resposta = [];
+      for (let i = 0; i < data.length; i++) {
+        resposta.push({
+          avatar: null,
+          name: data[i].userName,
+          date: '02/04/2019',
+          description: data[i].request.replace("_", ' '),
+          location: data[i].place.replace("_", ' ')
+        });
+      }
+      this.setState({ feeds: resposta });
+    }.bind(this));
+  }
 
+  publish() {
+    let ok = false
+    let URL = "https://hidden-atoll-76455.herokuapp.com/new-request/"
+    let loca = document.getElementById("location-field").value.replace(/\s+/g, "_")
+    let order = document.getElementById("order-field").value.replace(/\s+/g, "_")
+    let id = localStorage.getItem("userID")
+    let secondURL = "https://hidden-atoll-76455.herokuapp.com/get-profile/" + id
+    var client0 = new HttpClient();
 
-function logar(){
+    client0.get(secondURL, function (response) {
+      console.log(response)
+      response = JSON.parse(response)
+      console.log(response)
+      localStorage.setItem("newId", response.id)
+    })
+    id = localStorage.getItem("newId")
+    URL = URL + id + '/' + loca + '/' + order
+    //new-request/:id/:place/:request
+    console.log(URL)
+    var client = new HttpClient();
+    client.get(URL, function (response) {
+      console.log(response)
+    });
+  }
+
+  render() {
+    return (
+      <Grid container style={useStyles.root} alignContent="center">
+        <Grid item xs={12}>
+          <AppBar position="static" style={useStyles.appBar}>
+            <Toolbar variant="dense" style={{ justifyContent: 'space-between'}}>
+              <IconButton edge="start" style={useStyles.menuButton} color="inherit" aria-label="menu">
+                <MenuIcon />
+              </IconButton>
+              <Typography variant="h6" color="inherit">Início</Typography>
+              <IconButton
+                edge="start"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                color="inherit"
+                style={{alignSelf: 'fkex-end'}}
+              >
+                <AccountCircle />
+              </IconButton>
+            </Toolbar>
+          </AppBar>
+        </Grid>
+        <Grid item xs={12} style={useStyles.gridItem}>
+          <Typography variant="h6" color="inherit" style={useStyles.sectionTitle}>Pedir ajuda</Typography>
+        </Grid>
+        <Grid item xs={12} style={useStyles.gridItem}>
+          <TextField
+            id="location-field"
+            multiline
+            rows="1"
+            rowsMax="4"
+            placeholder="Onde você está?"
+            style={useStyles.textField}
+            variant="outlined"
+            width="100%"
+          />
+        </Grid>
+        <Grid item xs={12} style={useStyles.gridItem}>
+          <TextField
+            id="order-field"
+            multiline
+            rows="1"
+            rowsMax="4"
+            placeholder="Digite um pedido aqui! :D"
+            style={useStyles.textField}
+            variant="outlined"
+            width="100%"
+          />
+        </Grid>
+        <Grid item xs={12} style={{ textAlign: 'center' }}>
+          <Button variant="contained" size="large" style={useStyles.publishButton} color="primary" onClick={this.publish}>Publicar</Button>
+        </Grid>
+        <Grid item xs={12} style={useStyles.gridItem}>
+          <Typography variant="h6" color="inherit" style={useStyles.sectionTitle}>Feed de Ajudas</Typography>
+        </Grid>
+        <Grid item xs={12} style={useStyles.gridItem}>
+          {
+            this.state.feeds.map((item) => {
+              return <Feed avatar={item.avatar} name={item.name} date={item.date} description={item.description} location={item.location}/>
+            })
+          }
+        </Grid>
+        <Grid item xs={12} style={useStyles.gridItem}>
+        </Grid>
+      </Grid>
+    );
+  }
+}
+
+function publicar(){
   let ok = false
   let URL = "https://hidden-atoll-76455.herokuapp.com/new-request/"
   let loca = document.getElementById("location-field").value.replace(/\s+/g,"_")
@@ -142,7 +182,7 @@ function logar(){
   let id = localStorage.getItem("userID")
   let secondURL = "https://hidden-atoll-76455.herokuapp.com/get-profile/" + id
   var client0 = new HttpClient();
-  
+
   client0.get(secondURL, function(response) {
     console.log(response)
     response = JSON.parse(response)
@@ -162,34 +202,14 @@ function logar(){
 var HttpClient = function() {
   this.get = function(aUrl, aCallback) {
       var anHttpRequest = new XMLHttpRequest();
-      anHttpRequest.onreadystatechange = function() { 
+      anHttpRequest.onreadystatechange = function() {
           if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
               aCallback(anHttpRequest.responseText);
       }
 
-      anHttpRequest.open( "GET", aUrl, true );            
+      anHttpRequest.open( "GET", aUrl, true );
       anHttpRequest.send( null );
   }
 }
 
-//
-function array(){
-  var URL = "https://hidden-atoll-76455.herokuapp.com/get-requests/"
-  var client = new HttpClient();
-  client.get(URL, function(response) {
-    localStorage.setItem("Array",response)
-  })
-  let js = JSON.parse(localStorage.getItem("Array"))
-  console.log(js)
-  var resposta = []
-  for(let i = 0; i < js.length; i++ ){
-    resposta.push({
-      avatar: null, 
-      name: js[i].userName, 
-      date: '02/04/2019', 
-      description: js[i].request.replace("_",/\s+/g), 
-      location: js[i].place.replace("_",/\s+/g)
-    })
-  }
-  console.log(resposta)
-}
+export default Main;
