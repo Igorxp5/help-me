@@ -1,0 +1,46 @@
+[
+    {
+        "title": "I'm going on an adventure!", 
+        "description": "Você ajudou a primeira pessoa!"
+    },
+    {
+        "title": "Hakuna Matata... it means no worries!",
+        "description": "Você ajudou 5 pessoas, continue assim!"
+    },
+    {
+        "title": "You've got a friend in me.",
+        "description": "Você ajudou 10 pessoas, siga prestativo!"
+    },
+    {
+        "title": "Só ajuda top, Rogerinho.",
+        "description": "Você ajudou 15 pessoas, continue desse jeito <3!"
+    }, 
+    {
+        "title": "I'm inevitable!",
+        "description": "Você ajudou 20 pessoas, parabéns!"
+    }, 
+    {
+        "title": "Hogwarts will always be there to welcome your home.",
+        "description": "Você ajudou 25 pessoas, muito bem!"
+    },
+    {
+        "title": "I'm Spider-man, your friendly neighborhood!",
+        "description":"Você ajudou 30 pessoas, conrinue desse jeito <3!"
+    },
+    {
+        "title": "The nort remembers!",
+        "description": "Você ajudou 35 pessoas, continue assim!"
+    },
+    {
+        "title": "To infinity and beyond!",
+        "description": "Você ajudou 40 pessoas, siga prestativo!"
+    },
+    {
+        "title": "Don't worry about a thing",
+        "description": "Você ajudou 45 pessoas, muito bem!"
+    },
+    {
+        "title":"May the force be with you!",
+        "description": "Você ajudou 50 pessoas, parabêns!"
+    }
+]
