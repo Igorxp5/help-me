@@ -11,6 +11,8 @@ import IconButton from '@material-ui/core/IconButton';
 
 import './common.css';
 
+import Feed from './components/feed'
+
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -29,7 +31,12 @@ const useStyles = makeStyles(theme => ({
   },
   publishButton: {
     marginTop: 10,
+    marginBottom: 30,
     width: 100
+  },
+  sectionTitle: {
+    borderBottom: '1px solid #ccc',
+    marginBottom: 20
   }
 }));
 
@@ -42,6 +49,11 @@ export default function Main() {
     multiline: 'Controlled',
     currency: 'EUR',
   });
+
+  let feeds = [
+    {name: 'Igor Fernandes', date: '02/08/2019', description: 'Bla bla bla.'},
+    {name: 'Luana Mayara', date: '02/04/2019', description: 'Hahahahah.'}
+  ];
 
   const handleChange = name => event => {
     setValues({ ...values, [name]: event.target.value });
@@ -74,8 +86,14 @@ export default function Main() {
           width="100%"
         />
       </Grid>
-      <Grid item xs={12} className={classes.gridItem}>
+      <Grid item xs={12} className={classes.gridItem} style={{ textAlign: 'center' }}>
         <Button variant="contained" size="large" className={classes.publishButton} color="primary">Publicar</Button>
+      </Grid>
+      <Grid item xs={12} className={classes.gridItem}>
+        <Typography variant="h6" color="inherit" className={classes.sectionTitle}>Feed de Ajudas</Typography>
+      </Grid>
+      <Grid item xs={12} className={classes.gridItem}>
+        <Feed name="Igor Fernandes" date="02/08/2019 10:39" description="Bla bla bla!"/>
       </Grid>
     </Grid>
   );
